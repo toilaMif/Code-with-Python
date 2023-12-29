@@ -4,6 +4,7 @@ import sys
 pygame.init()
 
 screen = pygame.display.set_mode((300,400))
+pygame.display.set_caption('Game Trung code')
 
 NEN = (0,195, 180)
 DUONG_KE = (0, 166, 153)
