@@ -10,6 +10,7 @@ NEN = (0,195, 180)
 DUONG_KE = (0, 166, 153)
 MAU_X = (84, 84, 84)
 MAU_O = (239, 238, 205)
+mau_ty_so = (169, 216, 226)
 
 circles = []
 line = []
@@ -23,6 +24,10 @@ running = True
 thang = False
 hoa=False
 ket_thuc=False
+ty_so_x=0
+ty_so_o=0
+dem_x=0
+dem_o=0
 
 def thay_phien (bat_dau):
         if bat_dau == 'o':
@@ -93,11 +98,12 @@ def thoat ():
         
 font = pygame.font.SysFont('Times New Roman', 30)
 font1 = pygame.font.SysFont('Times New Roman', 10)
+font_ty_so = pygame.font.SysFont('Times New Roman', 30)
 
-def choi (circles, line, win_o, win_x, ban_co, bat_dau, kieu_thang_x, kieu_thang_o, running, thang, hoa, ket_thuc):
+def choi (circles, line, win_o, win_x, ban_co, bat_dau, kieu_thang_x, kieu_thang_o, running, thang, hoa, ket_thuc, ty_so_x, ty_so_o, dem_x, dem_o):
     while running: 
         screen.fill(NEN)
-        image = pygame.image.load('D:\\Education\\Code\\Python\\Py1\Caro\\th-removebg-preview.png')
+        image = pygame.image.load("D:\\Education\\Code\\Python\\Py1\Caro\\th-removebg-preview.png")
         
         mouse_x, mouse_y = pygame.mouse.get_pos()
         # print("Vi tri x:", mouse_x)
@@ -118,7 +124,8 @@ def choi (circles, line, win_o, win_x, ban_co, bat_dau, kieu_thang_x, kieu_thang
                             if (140 < mouse_x < 160) and (20 < mouse_y < 40):
                                 for i in range(9):
                                     ban_co[i]=i
-                                choi([], [], [], [], ban_co, bat_dau, False, False, True, False, False, False)
+                                
+                                choi([], [], [], [], ban_co, bat_dau, False, False, True, False, False, False, ty_so_x, ty_so_o, 0, 0)
                             if (75 < mouse_x < 125) and (50 < mouse_y < 100): #Ô1
                                 if thay_phien(bat_dau)=='x':
                                     if ban_co[0] == 'x' or ban_co[0] == 'o' or thang != False:
@@ -503,7 +510,24 @@ def choi (circles, line, win_o, win_x, ban_co, bat_dau, kieu_thang_x, kieu_thang
             image = pygame.transform.scale(image, (20, 20))
             screen.blit(image, (140,20))
 
-        pygame.display.flip()      
-choi(circles, line, win_o, win_x, ban_co, bat_dau,  kieu_thang_x, kieu_thang_o, running, thang, hoa, ket_thuc)
+            if thang == 'x' and kieu_thang_x!=dem_x:
+                ty_so_x=ty_so_x+1
+                dem_x=kieu_thang_x
+            
+            if thang == 'o' and kieu_thang_o!=dem_o:
+                ty_so_o=ty_so_o+1
+                dem_o=kieu_thang_o
+        
+        pygame.draw.rect(screen, mau_ty_so, (75,350,70,35)) #ty so x
+        text = font_ty_so.render("X: " + str(ty_so_x), True, MAU_X)
+        screen.blit(text, (75, 350))
+
+        pygame.draw.rect(screen, mau_ty_so, (155,350,70,35)) # ty so o
+        text = font_ty_so.render("O: " + str(ty_so_o), True, MAU_X)
+        screen.blit(text, (155, 350))
+     
+        pygame.display.flip()
+          
+choi(circles, line, win_o, win_x, ban_co, bat_dau,  kieu_thang_x, kieu_thang_o, running, thang, hoa, ket_thuc, ty_so_x, ty_so_o, dem_x, dem_o)
 
 pygame.QUIT()
